@@ -1,5 +1,5 @@
 const PROMPTPAY_ID = "088983000020605";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYIgvUzP-KHq2Y0yMeXEMyzarB_MtLLwXi5EynLr0NftGuEMbY_ertix699CsAxSvh0Q/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKQpBZ3rQefeuIZ3BEIWpJvkA_Pxg_QAoMxfdxDFkvLKVaFtWi7DMk9gIdS22Xy4Ndrw/exec";
 
 function getStore(key, def) { try { return localStorage.getItem(key) || def; } catch (e) { return def; } }
 function setStore(key, val) { try { localStorage.setItem(key, val); } catch (e) { } }
@@ -50,8 +50,10 @@ const translations = {
         method_pickup_out: "Around University (Free)",
         chk_contact: "Phone Number / IG OR ETC. *",
         chk_note_meetup: "Meetup Location & Time *",
-        nav_orders: "YOUR ORDERS",
+        nav_orders: "MY ORDERS",
         chk_slip_warn: "* We verify every transfer slip. Any forgery will be strictly prosecuted.",
+        history_title: "MY ORDERS",
+        history_note: "* Status will update to tracking number once shipped (1-2 days)",
     },
     th: {
         nav_collection: "คอลเลกชั่น", nav_story: "เกี่ยวกับเรา", nav_cart: "ตะกร้า",
@@ -95,8 +97,11 @@ const translations = {
         method_pickup_out: "ส่งรอบมอ (ฟรี)",
         chk_contact: "เบอร์โทรศัพท์ / ไอจี หรือ อื่นๆ*",
         chk_note_meetup: "สถานที่ตึกนัดรับ และ เวลา *",
-        nav_orders: "คำสั่งซื้อของคุณ",
+        nav_orders: "คำสั่งซื้อของฉัน",
         chk_slip_warn: "*ทางร้านมีการตรวจสอบสลิปก่อนทุกครั้งหากพบการปลอมแปลงจะถูกดำเนินคดีตามกฎหมาย",
+        history_title: "คำสั่งซื้อของฉัน",
+        history_note: "*สถานะจะเปลี่ยนเป็นเลขพัสดุเมื่อจัดส่งสำเร็จ (ภายใน 1-2 วัน)",
+        
     }
 };
 
@@ -886,6 +891,7 @@ async function confirmPayment() {
 
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
+            redirect: 'follow',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         });
@@ -1219,6 +1225,10 @@ function drawHistoryUI(history, container) {
             let trackingUrl = `https://www.flashexpress.co.th/tracking/?se=${trackingNumber}`;
 
             statusBadge = `<a href="${trackingUrl}" target="_blank" title="คลิกเพื่อเช็คพัสดุ" class="text-[9px] bg-green-500/10 text-green-600 hover:bg-green-500/20 px-2 py-1 rounded-sm uppercase tracking-widest font-bold transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-truck-fast"></i> ${statusText}</a>`;
+            
+        } else if (statusText.includes('SUCCESS') || statusText.includes('DELIVERED') || statusText.includes('รับของแล้ว')) {
+            
+            statusBadge = `<span class="text-[9px] bg-green-500/10 text-green-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold flex items-center gap-1 w-fit"><i class="fa-solid fa-circle-check"></i> ${statusText}</span>`;
             
         } else if (statusText.includes('CANCEL')) {
             statusBadge = `<span class="text-[9px] bg-red-500/10 text-red-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold">${statusText}</span>`;

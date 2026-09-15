@@ -1,5 +1,5 @@
 const PROMPTPAY_ID = "088983000020605";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYIgvUzP-KHq2Y0yMeXEMyzarB_MtLLwXi5EynLr0NftGuEMbY_ertix699CsAxSvh0Q/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKQpBZ3rQefeuIZ3BEIWpJvkA_Pxg_QAoMxfdxDFkvLKVaFtWi7DMk9gIdS22Xy4Ndrw/exec";
 
 function getStore(key, def) { try { return localStorage.getItem(key) || def; } catch (e) { return def; } }
 function setStore(key, val) { try { localStorage.setItem(key, val); } catch (e) { } }
@@ -33,7 +33,7 @@ const translations = {
         err_slip: "Please upload your transfer slip before confirming.",
         ph_fname: "e.g., John", ph_lname: "e.g., Doe", ph_phone: "e.g., 0812345678", ph_addr: "e.g., 123/45 Bldg, Sukhumvit Rd.",
         ph_subdist: "e.g., Khlong Toei", ph_dist: "e.g., Khlong Toei", ph_prov: "e.g., Bangkok", ph_zip: "e.g., 10110", ph_note: "e.g., Leave the parcel at the lobby...",
-        nav_orders: "YOUR ORDERS",
+        nav_orders: "MY ORDERS",
         chk_slip_warn: "* We verify every transfer slip. Any forgery will be strictly prosecuted.",
     },
 
@@ -65,7 +65,7 @@ const translations = {
         err_slip: "กรุณาแนบรูปสลิปชำระเงินก่อนกดยืนยันครับ",
         ph_fname: "เช่น สมชาย", ph_lname: "เช่น ใจดี", ph_phone: "เช่น 0812345678", ph_addr: "เช่น 123/45 คอนโด A ซ.สุขุมวิท",
         ph_subdist: "เช่น คลองเตย", ph_dist: "เช่น คลองเตย", ph_prov: "เช่น กรุงเทพมหานคร", ph_zip: "เช่น 10110", ph_note: "เช่น ฝากพัสดุไว้ที่ป้อม รปภ. ...",
-        nav_orders: "ออเดอร์ของคุณ",
+        nav_orders: "ออเดอร์ของฉัน",
         chk_slip_warn: "*ทางร้านมีการตรวจสอบสลิปก่อนทุกครั้งหากพบการปลอมแปลงจะถูกดำเนินคดีตามกฎหมาย",
     }
 };
@@ -175,7 +175,7 @@ function renderProductGallery() {
         imgEl.onclick = () => openLightbox(); slider.appendChild(imgEl);
         if (imageList.length > 1) {
             const dot = document.createElement('div');
-            dot.className = `h-2 rounded-full cursor-pointer transition-all duration-300 ${index === 0 ? 'bg-lux-black dark:bg-white w-5' : 'bg-lux-gray opacity-50 w-2 hover:bg-lux-black dark:hover:bg-white'}`;
+            dot.className = `rounded-full cursor-pointer transition-all duration-300 ${index === 0 ? 'w-6 h-2 md:h-2.5 bg-lux-black dark:bg-white' : 'w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 hover:bg-lux-black dark:hover:bg-white'}`;
             dot.onclick = () => { currentImageIndex = index; updateGalleryUI(); }; dots.appendChild(dot);
         }
     });
@@ -192,8 +192,8 @@ function updateGalleryUI() {
         else { img.classList.add('opacity-0', 'pointer-events-none', 'z-0'); img.classList.remove('opacity-100', 'z-10'); }
     });
     Array.from(dots).forEach((dot, index) => {
-        if (index === currentImageIndex) { dot.className = 'h-2 rounded-full cursor-pointer transition-all duration-300 bg-lux-black dark:bg-white w-5'; }
-        else { dot.className = 'h-2 rounded-full cursor-pointer transition-all duration-300 bg-lux-gray opacity-50 w-2 hover:bg-lux-black dark:hover:bg-white'; }
+        if (index === currentImageIndex) { dot.className = 'rounded-full cursor-pointer transition-all duration-300 w-6 h-2 md:h-2.5 bg-lux-black dark:bg-white'; }
+        else { dot.className = 'rounded-full cursor-pointer transition-all duration-300 w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 hover:bg-lux-black dark:hover:bg-white'; }
     });
     const lightboxImg = document.getElementById('lightbox-img'); if (lightboxImg && document.getElementById('lightbox').classList.contains('hidden') === false) { lightboxImg.src = currentProduct.gallery[currentImageIndex]; }
 }
@@ -275,7 +275,7 @@ function saveCart() { localStorage.setItem('lamun_cart', JSON.stringify(cart)); 
 function addToCart(product, size, price) {
     const existing = cart.find(item => item.id === product.id && item.size === size);
     if (existing) existing.quantity += 1; else cart.push({ ...product, size, price, quantity: 1 });
-    saveCart(); updateCartUI(); showToast(`Added ${product.name} (${size})`);
+    saveCart(); updateCartUI(); showToast(`ADDED ${product.name.toUpperCase()} (${size.toUpperCase()})`);
 }
 function removeFromCart(index) {
     cart.splice(index, 1);
@@ -787,6 +787,7 @@ async function confirmPayment() {
 
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
+            redirect: 'follow',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         });
@@ -1045,6 +1046,10 @@ function drawHistoryUI(history, container) {
 
             statusBadge = `<a href="${trackingUrl}" target="_blank" title="คลิกเพื่อเช็คพัสดุ" class="text-[9px] bg-green-500/10 text-green-600 hover:bg-green-500/20 px-2 py-1 rounded-sm uppercase tracking-widest font-bold transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-truck-fast"></i> ${statusText}</a>`;
             
+        } else if (statusText.includes('SUCCESS') || statusText.includes('DELIVERED') || statusText.includes('รับของแล้ว')) {
+            
+            statusBadge = `<span class="text-[9px] bg-green-500/10 text-green-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold flex items-center gap-1 w-fit"><i class="fa-solid fa-circle-check"></i> ${statusText}</span>`;
+            
         } else if (statusText.includes('CANCEL')) {
 
             statusBadge = `<span class="text-[9px] bg-red-500/10 text-red-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold">${statusText}</span>`;
@@ -1066,4 +1071,30 @@ function drawHistoryUI(history, container) {
         </div>
         `;
     }).join('');
+}
+
+let touchstartX = 0;
+let touchendX = 0;
+
+const imageArea = document.getElementById('product-slider');
+
+if (imageArea) {
+    imageArea.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    imageArea.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 40;
+    if (touchendX < touchstartX - swipeThreshold) {
+        if (typeof nextImage === "function") nextImage(); 
+    }
+    if (touchendX > touchstartX + swipeThreshold) {
+        if (typeof prevImage === "function") prevImage(); 
+    }
 }
