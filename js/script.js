@@ -1,5 +1,5 @@
 const PROMPTPAY_ID = "088983000020605";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkjI3BkipvTpfYYZFCAu_vNjWEvAotLG31a7akZ3j7NNNpNR_dd5u-m-uXQPmry6Xp3w/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOn18FEoUQskhb6hV5sLBQAk5KfsLyY8y6jkgBemhzCsaxjfY1NKPPmFL7vO-eUI0wZA/exec";
 
 function getStore(key, def) { try { return localStorage.getItem(key) || def; } catch (e) { return def; } }
 function setStore(key, val) { try { localStorage.setItem(key, val); } catch (e) { } }
