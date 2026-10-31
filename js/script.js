@@ -165,7 +165,7 @@ function resetSlideTimer() { clearInterval(slideInterval); showSlide(currentSlid
 
 const products = [
     {
-        id: 1, brand: "Scent Studio", name: "Matcha 101 EDP", category: "niche",
+        id: 1, brand: "Scent Studio", name: "Matcha 101 EDP", gender: "unisex", category: "niche",
         image: "images/perfumes/matcha101-1.jpg",
         // prices: { "2ml": 79, "5ml": 149, "10ml": 279 },
         prices: { "2ml": 89, "5ml": 169, "10ml": 299 },
@@ -173,7 +173,7 @@ const products = [
         notes: { top: "Bergamot, Lemon", middle: "Green Tea, Black Tea", base: "White Musk, Cedarwood" }
     },
     {
-        id: 2, brand: "Yves Saint Laurent", name: "Libre EDP", category: "designer",
+        id: 2, brand: "Yves Saint Laurent", name: "Libre EDP", gender: "women", category: "designer",
         image: "images/perfumes/ysllibre-1.jpg",
         // prices: { "2ml": 149, "5ml": 299, "10ml": 549 },
         prices: { "2ml": 159, "5ml": 319, "10ml": 579 },
@@ -181,7 +181,7 @@ const products = [
         notes: { top: "Lavender, Mandarin Orange", middle: "Orange Blossom, Jasmine", base: "Madagascar Vanilla, Musk" }
     },
     {
-        id: 3, brand: "Christian Dior", name: "Sauvage EDP", category: "designer",
+        id: 3, brand: "Christian Dior", name: "Sauvage EDP", gender: "men", category: "designer",
         image: "images/perfumes/diorsauvage-2.jpg",
         // prices: { "2ml": 149, "5ml": 289, "10ml": 529 },
         prices: { "2ml": 159, "5ml": 309, "10ml": 549 },
@@ -189,7 +189,7 @@ const products = [
         notes: { top: "Calabrian Bergamot, Pepper", middle: "Sichuan Pepper, Lavender, Patchouli", base: "Ambroxan, Cedarwood" }
     },
     {
-        id: 4, brand: "Mercedes-Benz", name: "Intense EDT", category: "designer",
+        id: 4, brand: "Mercedes-Benz", name: "Intense EDT", gender: "men", category: "designer",
         image: "images/perfumes/benzintense-1.jpg",
         // prices: { "2ml": 99, "5ml": 199, "10ml": 359 },
         prices: { "2ml": 109, "5ml": 219, "10ml": 399 },
@@ -209,7 +209,7 @@ const products = [
 
 let cart = JSON.parse(localStorage.getItem('lamun_cart')) || [];
 let currentFilter = 'all';
-let currentSort = 'default'; 
+let currentSort = 'default';
 let scrollObserver;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -253,7 +253,10 @@ function renderProducts() {
     if (!grid) return;
     grid.innerHTML = '';
 
-    let toRender = currentFilter === 'all' ? [...products] : products.filter(p => p.category === currentFilter || p.isComingSoon);
+    let toRender = products.filter(p =>
+        (currentFilter === 'all' || p.category === currentFilter || p.isComingSoon) &&
+        (currentGenderFilter === 'all' || p.gender === currentGenderFilter || p.isComingSoon)
+    );
     const availableProducts = toRender.filter(p => !p.isComingSoon);
     const comingSoonProducts = toRender.filter(p => p.isComingSoon);
 
@@ -380,8 +383,8 @@ function saveCart() { localStorage.setItem('lamun_cart', JSON.stringify(cart)); 
 function addToCart(product, size, price) {
     const existing = cart.find(item => item.id === product.id && item.size === size);
     if (existing) existing.quantity += 1; else cart.push({ ...product, size, price, quantity: 1 });
-    saveCart(); updateCartUI(); 
-    showToast(`ADDED ${product.name.toUpperCase()} (${size.toUpperCase()})`); 
+    saveCart(); updateCartUI();
+    showToast(`ADDED ${product.name.toUpperCase()} (${size.toUpperCase()})`);
 }
 function removeFromCart(index) {
     cart.splice(index, 1);
@@ -439,30 +442,30 @@ function toggleCart() {
 
 let toastTimer;
 function showToast(msg) {
-    const toast = document.getElementById('toast'); 
+    const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-msg');
     if (!toast || !toastMsg) return;
-    
-    toastMsg.textContent = msg; 
-    
+
+    toastMsg.textContent = msg;
+
     toast.classList.remove('-translate-y-20', 'opacity-0');
     toast.classList.add('translate-y-0', 'opacity-100');
-    
-    clearTimeout(toastTimer); 
-    toastTimer = setTimeout(() => { 
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
         toast.classList.add('-translate-y-20', 'opacity-0');
-        toast.classList.remove('translate-y-0', 'opacity-100'); 
+        toast.classList.remove('translate-y-0', 'opacity-100');
     }, 5000);
 }
 
 function toggleDeliveryMethod() {
     const methodElement = document.querySelector('input[name="delivery_method"]:checked');
-    if(!methodElement) return;
+    if (!methodElement) return;
     const method = methodElement.value;
     const labels = { 'shipping': document.getElementById('label-shipping'), 'pickup_in': document.getElementById('label-pickup-in'), 'pickup_out': document.getElementById('label-pickup-out') };
 
-    Object.values(labels).forEach(l => { if(l) { l.classList.remove('border-lux-black', 'dark:border-white', 'bg-lux-light/50', 'dark:bg-[#222]'); l.classList.add('border-lux-light', 'dark:border-white/20'); } });
-    if(labels[method]) { labels[method].classList.add('border-lux-black', 'dark:border-white', 'bg-lux-light/50', 'dark:bg-[#222]'); labels[method].classList.remove('border-lux-light', 'dark:border-white/20'); }
+    Object.values(labels).forEach(l => { if (l) { l.classList.remove('border-lux-black', 'dark:border-white', 'bg-lux-light/50', 'dark:bg-[#222]'); l.classList.add('border-lux-light', 'dark:border-white/20'); } });
+    if (labels[method]) { labels[method].classList.add('border-lux-black', 'dark:border-white', 'bg-lux-light/50', 'dark:bg-[#222]'); labels[method].classList.remove('border-lux-light', 'dark:border-white/20'); }
 
     const addressGroup = document.getElementById('full-address-group');
     const noteLabel = document.getElementById('label-note');
@@ -472,40 +475,40 @@ function toggleDeliveryMethod() {
     const provField = document.getElementById('s_prov');
     const distField = document.getElementById('s_dist');
     const zipField = document.getElementById('s_zip');
-    
+
     const subdistInput = document.getElementById('s_subdist');
     const subdistSelectWrapper = document.getElementById('s_subdist_wrapper');
 
     if (method === 'pickup_in') {
-        if(addressGroup) addressGroup.style.display = 'none';
-        if(noteLabel) { noteLabel.textContent = translations[langKey].chk_note_meetup; noteLabel.setAttribute('data-i18n', 'chk_note_meetup'); }
-        if(contactLabel) { contactLabel.textContent = translations[langKey].chk_contact; contactLabel.setAttribute('data-i18n', 'chk_contact'); }
+        if (addressGroup) addressGroup.style.display = 'none';
+        if (noteLabel) { noteLabel.textContent = translations[langKey].chk_note_meetup; noteLabel.setAttribute('data-i18n', 'chk_note_meetup'); }
+        if (contactLabel) { contactLabel.textContent = translations[langKey].chk_contact; contactLabel.setAttribute('data-i18n', 'chk_contact'); }
     } else {
-        if(addressGroup) addressGroup.style.display = 'block';
-        if(noteLabel) { noteLabel.textContent = translations[langKey].chk_note; noteLabel.setAttribute('data-i18n', 'chk_note'); }
-        if(contactLabel) { contactLabel.textContent = translations[langKey].chk_phone; contactLabel.setAttribute('data-i18n', 'chk_phone'); }
-        
+        if (addressGroup) addressGroup.style.display = 'block';
+        if (noteLabel) { noteLabel.textContent = translations[langKey].chk_note; noteLabel.setAttribute('data-i18n', 'chk_note'); }
+        if (contactLabel) { contactLabel.textContent = translations[langKey].chk_phone; contactLabel.setAttribute('data-i18n', 'chk_phone'); }
+
         if (method === 'pickup_out') {
-            if(provField) { provField.value = langKey === 'th' ? "เชียงใหม่" : "Chiang Mai"; provField.readOnly = true; provField.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
-            if(distField) { distField.value = langKey === 'th' ? "สันทราย" : "San Sai"; distField.readOnly = true; distField.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
-            if(zipField) { zipField.value = "50290"; }
-            
-            if(subdistInput) subdistInput.style.display = 'none';
-            if(subdistSelectWrapper) subdistSelectWrapper.classList.remove('hidden');
-            
+            if (provField) { provField.value = langKey === 'th' ? "เชียงใหม่" : "Chiang Mai"; provField.readOnly = true; provField.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
+            if (distField) { distField.value = langKey === 'th' ? "สันทราย" : "San Sai"; distField.readOnly = true; distField.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
+            if (zipField) { zipField.value = "50290"; }
+
+            if (subdistInput) subdistInput.style.display = 'none';
+            if (subdistSelectWrapper) subdistSelectWrapper.classList.remove('hidden');
+
         } else if (method === 'shipping') {
             let wasLocked = provField && provField.readOnly;
-            if(provField) { if (wasLocked) provField.value = ""; provField.readOnly = false; provField.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
-            if(distField) { if (wasLocked) distField.value = ""; distField.readOnly = false; distField.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
-            if(zipField && wasLocked && zipField.value === "50290") { zipField.value = ""; }
-            
-            if(subdistInput) subdistInput.style.display = 'block';
-            if(subdistSelectWrapper) subdistSelectWrapper.classList.add('hidden');
-            
+            if (provField) { if (wasLocked) provField.value = ""; provField.readOnly = false; provField.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
+            if (distField) { if (wasLocked) distField.value = ""; distField.readOnly = false; distField.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none'); }
+            if (zipField && wasLocked && zipField.value === "50290") { zipField.value = ""; }
+
+            if (subdistInput) subdistInput.style.display = 'block';
+            if (subdistSelectWrapper) subdistSelectWrapper.classList.add('hidden');
+
             const hiddenSelect = document.getElementById('s_subdist_select');
             const subdistText = document.getElementById('current-subdist-text');
-            if(hiddenSelect) hiddenSelect.value = "";
-            if(subdistText) {
+            if (hiddenSelect) hiddenSelect.value = "";
+            if (subdistText) {
                 subdistText.textContent = "-- เลือกตำบล --";
                 subdistText.classList.remove('text-lux-black', 'dark:text-white');
                 subdistText.classList.add('text-lux-gray');
@@ -584,29 +587,29 @@ function closeCheckout() {
 
 function validateAndProceed() {
     const errorBox = document.getElementById('form-error');
-    const langKey = typeof currentLang !== 'undefined' ? currentLang : 'en'; 
+    const langKey = typeof currentLang !== 'undefined' ? currentLang : 'en';
     const methodElement = document.querySelector('input[name="delivery_method"]:checked');
     const method = methodElement ? methodElement.value : 'shipping';
-    
+
     const activeSubdistId = method === 'pickup_out' ? 's_subdist_select' : 's_subdist';
-    
+
     const inputs = {
         s_fname: document.getElementById('s_fname').value.trim(),
         s_lname: document.getElementById('s_lname').value.trim(),
         s_phone: document.getElementById('s_phone').value.trim(),
         s_addr: document.getElementById('s_addr').value.trim(),
-        s_subdist: document.getElementById(activeSubdistId).value.trim(), 
+        s_subdist: document.getElementById(activeSubdistId).value.trim(),
         s_dist: document.getElementById('s_dist').value.trim(),
         s_prov: document.getElementById('s_prov').value.trim(),
         s_zip: document.getElementById('s_zip').value.trim(),
-        s_note: document.getElementById('s_note').value.trim() 
+        s_note: document.getElementById('s_note').value.trim()
     };
 
     let hasError = false;
-    let errorMsg = (translations && translations[langKey] && translations[langKey].err_empty) ? translations[langKey].err_empty : "Please fill in all required fields."; 
+    let errorMsg = (translations && translations[langKey] && translations[langKey].err_empty) ? translations[langKey].err_empty : "Please fill in all required fields.";
 
     document.querySelectorAll('#shipping-form input[type="text"], #shipping-form input[type="tel"], #shipping-form textarea, #subdist-display-box').forEach(el => {
-        if(el) {
+        if (el) {
             el.classList.remove('border-red-500');
             el.classList.add('border-lux-light', 'dark:border-white/20', 'focus:border-lux-gold');
         }
@@ -620,11 +623,11 @@ function validateAndProceed() {
         ['s_fname', 's_lname', 's_phone', 's_addr', 's_dist', 's_prov', 's_zip'].forEach(id => {
             if (!inputs[id]) { hasError = true; document.getElementById(id).classList.add('border-red-500'); }
         });
-        
-        if (!inputs.s_subdist) { 
-            hasError = true; 
+
+        if (!inputs.s_subdist) {
+            hasError = true;
             const errorTarget = method === 'pickup_out' ? document.getElementById('subdist-display-box') : document.getElementById('s_subdist');
-            if(errorTarget) {
+            if (errorTarget) {
                 errorTarget.classList.add('border-red-500');
                 errorTarget.classList.remove('border-lux-light', 'dark:border-white/20');
             }
@@ -632,7 +635,7 @@ function validateAndProceed() {
     }
 
     if (!hasError) {
-        
+
         const hasNumbers = /\d/;
         const hasSymbols = /[!@#$%^&*()_+={}\[\]:;"'<>,?/\\]/;
 
@@ -643,7 +646,7 @@ function validateAndProceed() {
         else if (inputs.s_lname.length < 2 || hasNumbers.test(inputs.s_lname) || hasSymbols.test(inputs.s_lname)) {
             hasError = true; errorMsg = langKey === 'th' ? "กรุณากรอกนามสกุลให้ถูกต้อง (ห้ามมีตัวเลข/สัญลักษณ์)" : "Please enter a valid last name."; document.getElementById('s_lname').classList.add('border-red-500');
         }
-        
+
         else if (inputs.s_phone) {
             const isNumberOnly = /^[0-9\s-]+$/.test(inputs.s_phone);
             const phoneClean = inputs.s_phone.replace(/[\s-]/g, '');
@@ -668,8 +671,8 @@ function validateAndProceed() {
         }
 
         if (!hasError && method === 'pickup_out') {
-            const fullAddressCheck = (inputs.s_addr + inputs.s_subdist + inputs.s_dist + inputs.s_prov + inputs.s_note).replace(/\s/g, '').toLowerCase(); 
-            if (!fullAddressCheck.includes('แม่โจ้') && !fullAddressCheck.includes('maejo') && 
+            const fullAddressCheck = (inputs.s_addr + inputs.s_subdist + inputs.s_dist + inputs.s_prov + inputs.s_note).replace(/\s/g, '').toLowerCase();
+            if (!fullAddressCheck.includes('แม่โจ้') && !fullAddressCheck.includes('maejo') &&
                 !fullAddressCheck.includes('สันทราย') && !fullAddressCheck.includes('sansai') &&
                 !fullAddressCheck.includes('หน้ามอ') && !fullAddressCheck.includes('หลังมอ')) {
                 hasError = true;
@@ -685,7 +688,7 @@ function validateAndProceed() {
         document.getElementById('step-1-shipping').scrollTo({ top: 0, behavior: 'smooth' });
     } else {
         errorBox.classList.add('hidden');
-        proceedToPayment(); 
+        proceedToPayment();
     }
 }
 
@@ -788,20 +791,20 @@ function previewSlip(event) {
         const reader = new FileReader();
         reader.onload = function (e) {
             const img = new Image();
-            img.onload = function() {
+            img.onload = function () {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 const maxWidth = 800;
                 let width = img.width;
                 let height = img.height;
                 if (width > maxWidth) { height = Math.round((height * maxWidth) / width); width = maxWidth; }
-                
+
                 canvas.width = width; canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
-                
+
                 const imageData = ctx.getImageData(0, 0, width, height);
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
-                
+
                 if (code) {
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
@@ -815,7 +818,7 @@ function previewSlip(event) {
                     preview.classList.add('hidden');
                     icon.classList.remove('hidden');
                     fileName.textContent = (translations[langKey] && translations[langKey].chk_slip_btn) ? translations[langKey].chk_slip_btn : "Click to upload slip";
-                    
+
                     if (errorBox) {
                         errorBox.textContent = langKey === 'th' ? "รูปภาพนี้ไม่มี QR Code ไม่สามารถใช้เป็นสลิปได้" : "No QR Code detected. Please upload a valid transfer slip.";
                         errorBox.classList.remove('hidden');
@@ -836,7 +839,7 @@ function previewSlip(event) {
     }
 }
 
-async function confirmPayment() { 
+async function confirmPayment() {
     const fileInput = document.getElementById('slip_upload');
     const errorBox = document.getElementById('slip-error');
     const langKey = typeof currentLang !== 'undefined' ? currentLang : 'en';
@@ -845,7 +848,7 @@ async function confirmPayment() {
         errorBox.textContent = (translations[langKey] && translations[langKey].err_slip) ? translations[langKey].err_slip : "Please upload your transfer slip before confirming.";
         errorBox.classList.remove('hidden');
         document.getElementById('step-2-payment').scrollTo({ top: 1000, behavior: 'smooth' });
-        return; 
+        return;
     }
     errorBox.classList.add('hidden');
 
@@ -860,25 +863,25 @@ async function confirmPayment() {
         const compressedBase64 = await new Promise((resolve) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = new Image();
                 img.src = e.target.result;
-                img.onload = function() {
+                img.onload = function () {
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    
+
                     const maxWidth = 800;
                     if (width > maxWidth) {
                         height = Math.round((height * maxWidth) / width);
                         width = maxWidth;
                     }
-                    
+
                     canvas.width = width;
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    
+
                     resolve(canvas.toDataURL('image/jpeg', 0.75));
                 };
             };
@@ -886,10 +889,10 @@ async function confirmPayment() {
 
         const methodVal = document.querySelector('input[name="delivery_method"]:checked').value;
         const methodText = methodVal === 'pickup_in' ? 'นัดรับในมอ' : (methodVal === 'pickup_out' ? 'ส่งรอบมอ' : 'จัดส่งพัสดุ');
-        
+
         const activeSubdistId = methodVal === 'pickup_out' ? 's_subdist_select' : 's_subdist';
-        const addressData = methodVal === 'pickup_in' 
-            ? `จุดนัดรับ: ${document.getElementById('s_note').value}` 
+        const addressData = methodVal === 'pickup_in'
+            ? `จุดนัดรับ: ${document.getElementById('s_note').value}`
             : `${document.getElementById('s_addr').value} ต.${document.getElementById(activeSubdistId).value} อ.${document.getElementById('s_dist').value} จ.${document.getElementById('s_prov').value} ${document.getElementById('s_zip').value} (หมายเหตุ: ${document.getElementById('s_note').value})`;
 
         const itemString = cart.map(item => `- ${item.name} (${item.size}) x ${item.quantity}`).join('\n');
@@ -899,7 +902,7 @@ async function confirmPayment() {
         const newOrderId = "LM" + new Date().getTime().toString().slice(-6);
 
         const payload = {
-            orderId: newOrderId, 
+            orderId: newOrderId,
             fname: document.getElementById('s_fname').value,
             lname: document.getElementById('s_lname').value,
             phone: document.getElementById('s_phone').value,
@@ -907,7 +910,7 @@ async function confirmPayment() {
             fullAddress: addressData,
             items: itemString,
             total: subtotal + shipping,
-            slip: compressedBase64 
+            slip: compressedBase64
         };
 
         const response = await fetch(SCRIPT_URL, {
@@ -918,25 +921,25 @@ async function confirmPayment() {
         });
 
         const result = await response.json();
-        
+
         if (result.status === "success") {
-        
+
             const orderRecord = {
-                id: newOrderId, 
+                id: newOrderId,
                 date: new Date().toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' }),
                 items: cart.map(item => `- ${item.name} (${item.size}) x ${item.quantity}`),
                 total: subtotal + shipping,
                 status: "Processing"
             };
             let history = JSON.parse(localStorage.getItem('lamun_order_history')) || [];
-            history.unshift(orderRecord); 
+            history.unshift(orderRecord);
             localStorage.setItem('lamun_order_history', JSON.stringify(history));
 
-            closeCheckout(); 
-            cart = [];       
-            saveCart();      
-            updateCartUI();  
-            
+            closeCheckout();
+            cart = [];
+            saveCart();
+            updateCartUI();
+
             fileInput.value = '';
             document.getElementById('slip-preview').classList.add('hidden');
             document.getElementById('slip-icon').classList.remove('hidden');
@@ -945,11 +948,11 @@ async function confirmPayment() {
 
             setTimeout(() => {
                 showToast(langKey === 'th' ? "ยืนยันการสั่งซื้อ ขอบคุณที่อุดหนุนครับ ✨" : "Payment confirmed. Thank you ✨");
-            }, 500); 
+            }, 500);
         } else {
             throw new Error("API Error");
         }
-        
+
     } catch (error) {
         alert("เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้งครับ");
     } finally {
@@ -985,10 +988,10 @@ window.addEventListener('scroll', () => {
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 function init3DTilt() {
-    if (window.innerWidth < 1024) return; 
+    if (window.innerWidth < 1024) return;
     const cards = document.querySelectorAll('.img-container');
     cards.forEach(card => {
-        if (card.dataset.tiltInit) return; 
+        if (card.dataset.tiltInit) return;
         card.dataset.tiltInit = 'true';
 
         card.addEventListener('mousemove', e => {
@@ -1124,11 +1127,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleSubdistDropdown(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     event.stopPropagation();
     const menu = document.getElementById('subdist-dropdown-menu');
     const icon = document.getElementById('subdist-icon');
-    
+
     if (menu.classList.contains('invisible')) {
         menu.classList.remove('invisible', 'opacity-0', 'translate-y-2');
         icon.classList.add('rotate-180');
@@ -1143,7 +1146,7 @@ document.addEventListener('click', (e) => {
     const icon = document.getElementById('subdist-icon');
     if (menu && !menu.classList.contains('invisible') && !e.target.closest('#s_subdist_wrapper')) {
         menu.classList.add('invisible', 'opacity-0', 'translate-y-2');
-        if(icon) icon.classList.remove('rotate-180');
+        if (icon) icon.classList.remove('rotate-180');
     }
 });
 
@@ -1159,7 +1162,7 @@ function initSubdistCustomDropdown() {
             currentText.classList.remove('text-lux-gray');
             currentText.classList.add('text-lux-black', 'dark:text-white');
 
-            if(displayBox) {
+            if (displayBox) {
                 displayBox.classList.remove('border-red-500');
                 displayBox.classList.add('border-lux-light', 'dark:border-white/20');
             }
@@ -1180,10 +1183,10 @@ function toggleHistory() {
     const modal = document.getElementById('history-modal');
     const drawer = document.getElementById('history-drawer');
     const overlay = document.getElementById('history-overlay');
-    
+
     if (modal.classList.contains('hidden')) {
         modal.classList.remove('hidden');
-        renderHistory(); 
+        renderHistory();
         setTimeout(() => {
             overlay.classList.remove('opacity-0');
             drawer.classList.remove('translate-x-full');
@@ -1198,21 +1201,21 @@ function toggleHistory() {
 async function renderHistory() {
     const container = document.getElementById('history-items');
     let history = JSON.parse(localStorage.getItem('lamun_order_history')) || [];
-    
+
     drawHistoryUI(history, container);
     if (history.length === 0) return;
 
     try {
         const orderIds = history.map(h => h.id).join(',');
-        const fetchUrl = SCRIPT_URL + "?ids=" + orderIds; 
-        
+        const fetchUrl = SCRIPT_URL + "?ids=" + orderIds;
+
         const response = await fetch(fetchUrl, { redirect: "follow" });
         const liveStatuses = await response.json();
-        
+
         let hasChanges = false;
         history = history.map(order => {
             if (liveStatuses[order.id] && liveStatuses[order.id] !== order.status) {
-                order.status = liveStatuses[order.id]; 
+                order.status = liveStatuses[order.id];
                 hasChanges = true;
             }
             return order;
@@ -1220,7 +1223,7 @@ async function renderHistory() {
 
         if (hasChanges) {
             localStorage.setItem('lamun_order_history', JSON.stringify(history));
-            drawHistoryUI(history, container); 
+            drawHistoryUI(history, container);
         }
     } catch (error) {
         console.log("Offline mode: showing local status");
@@ -1233,24 +1236,24 @@ function drawHistoryUI(history, container) {
         container.innerHTML = `<div class="text-center text-lux-gray text-xs mt-10">${langKey === 'th' ? "ยังไม่มีประวัติการสั่งซื้อครับ" : "No order history yet."}</div>`;
         return;
     }
-    
+
     container.innerHTML = history.map(order => {
         let statusText = order.status.toUpperCase();
-        
+
         let statusBadge = `<span class="text-[9px] bg-lux-gold/10 text-lux-gold px-2 py-1 rounded-sm uppercase tracking-widest font-bold">${statusText}</span>`;
-        
+
         if (statusText.includes('TH') || statusText.includes('J&T') || statusText.includes('FL') || statusText.includes('KEX') || statusText.includes('ส่งแล้ว')) {
-            
-            let trackingNumber = statusText.replace(/[^A-Z0-9]/g, ''); 
-            
+
+            let trackingNumber = statusText.replace(/[^A-Z0-9]/g, '');
+
             let trackingUrl = `https://www.flashexpress.co.th/tracking/?se=${trackingNumber}`;
 
             statusBadge = `<a href="${trackingUrl}" target="_blank" title="คลิกเพื่อเช็คพัสดุ" class="text-[9px] bg-green-500/10 text-green-600 hover:bg-green-500/20 px-2 py-1 rounded-sm uppercase tracking-widest font-bold transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-truck-fast"></i> ${statusText}</a>`;
-            
+
         } else if (statusText.includes('SUCCESS') || statusText.includes('DELIVERED') || statusText.includes('รับของแล้ว')) {
-            
+
             statusBadge = `<span class="text-[9px] bg-green-500/10 text-green-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold flex items-center gap-1 w-fit"><i class="fa-solid fa-circle-check"></i> ${statusText}</span>`;
-            
+
         } else if (statusText.includes('CANCEL')) {
             statusBadge = `<span class="text-[9px] bg-red-500/10 text-red-600 px-2 py-1 rounded-sm uppercase tracking-widest font-bold">${statusText}</span>`;
         }
@@ -1275,35 +1278,35 @@ function drawHistoryUI(history, container) {
 
 let currentGenderFilter = 'all';
 
-window.toggleGenderDropdown = function(e) {
+window.toggleGenderDropdown = function (e) {
     e.stopPropagation();
     const menu = document.getElementById('gender-dropdown-menu');
     const icon = document.getElementById('gender-icon');
-    
-    if(menu && icon) {
+
+    if (menu && icon) {
         menu.classList.toggle('opacity-0');
         menu.classList.toggle('invisible');
         menu.classList.toggle('translate-y-2');
         icon.classList.toggle('rotate-180');
     }
-    
+
     const sortMenu = document.getElementById('sort-dropdown-menu');
     const sortIcon = document.getElementById('sort-icon');
     if (sortMenu && !sortMenu.classList.contains('opacity-0')) {
         sortMenu.classList.add('opacity-0', 'invisible', 'translate-y-2');
-        if(sortIcon) sortIcon.classList.remove('rotate-180');
+        if (sortIcon) sortIcon.classList.remove('rotate-180');
     }
 };
 
 document.querySelectorAll('.gender-option').forEach(option => {
     option.addEventListener('click', (e) => {
         currentGenderFilter = e.target.getAttribute('data-value');
-        
+
         const textSpan = document.getElementById('current-gender-text');
-        if(textSpan) {
+        if (textSpan) {
             textSpan.setAttribute('data-i18n', e.target.getAttribute('data-i18n'));
             const currentLang = localStorage.getItem('lamun_lang') || 'th';
-            if(translations[currentLang] && translations[currentLang][e.target.getAttribute('data-i18n')]) {
+            if (translations[currentLang] && translations[currentLang][e.target.getAttribute('data-i18n')]) {
                 textSpan.innerText = translations[currentLang][e.target.getAttribute('data-i18n')];
             }
         }
@@ -1317,8 +1320,8 @@ document.querySelectorAll('.gender-option').forEach(option => {
 
         window.toggleGenderDropdown(e);
 
-        if(typeof renderProducts === 'function') {
-            renderProducts(); 
+        if (typeof renderProducts === 'function') {
+            renderProducts();
         }
     });
 });
@@ -1328,6 +1331,6 @@ document.addEventListener('click', () => {
     const genderIcon = document.getElementById('gender-icon');
     if (genderMenu && !genderMenu.classList.contains('opacity-0')) {
         genderMenu.classList.add('opacity-0', 'invisible', 'translate-y-2');
-        if(genderIcon) genderIcon.classList.remove('rotate-180');
+        if (genderIcon) genderIcon.classList.remove('rotate-180');
     }
 });
