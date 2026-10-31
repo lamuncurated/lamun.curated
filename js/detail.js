@@ -7,10 +7,10 @@ function setStore(key, val) { try { localStorage.setItem(key, val); } catch (e) 
 const translations = {
     en: {
         nav_collection: "Collection", nav_cart: "Cart", recommended_title: "You Might Also Like", btn_add: "Add to Cart",
-        marquee_msg: "🚚 FREE SHIPPING ON ORDERS OVER 799 THB &nbsp; ✦ &nbsp; 🎊 GRAND OPENING PROMO &nbsp; ✦ &nbsp; 100% AUTHENTIC GUARANTEED",
+        marquee_msg: "🚚 FREE SHIPPING ON ORDERS OVER 599 THB &nbsp; ✦ &nbsp; 100% AUTHENTIC GUARANTEED",
         cart_title: "Your Cart", cart_empty: "Your cart is empty.", cart_total: "Subtotal", btn_checkout: "Check Out",
         starts_at: "Starts at",
-        method_shipping: "Delivery (35 THB / Free > 799)",
+        method_shipping: "Delivery (35 THB / Free > 599 THB)",
         method_pickup_in: "In-University (Free)",
         method_pickup_out: "Around University (Free)",
         chk_contact: "Phone Number / IG *",
@@ -39,10 +39,10 @@ const translations = {
 
     th: {
         nav_collection: "คอลเลกชัน", nav_cart: "ตะกร้า", recommended_title: "สินค้าแนะนำที่คุณอาจชื่นชอบ", btn_add: "ใส่ตะกร้า",
-        marquee_msg: "🚚 ซื้อครบ 799฿ ส่งฟรีทั่วประเทศ &nbsp; ✦ &nbsp; 🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้ &nbsp; ✦ &nbsp; การันตีของแท้ 100% ไม่ผสมแน่นอน",
+        marquee_msg: "🚚 ซื้อครบ 599฿ ส่งฟรีทั่วประเทศ &nbsp; ✦ &nbsp; การันตีของแท้ 100% ไม่ผสมแน่นอน",
         cart_title: "ตะกร้าของคุณ", cart_empty: "ตะกร้าของคุณยังว่างเปล่า", cart_total: "ยอดรวม", btn_checkout: "ชำระเงิน",
         starts_at: "เริ่มต้นที่",
-        method_shipping: "จัดส่งพัสดุ (35฿ / ส่งฟรีครบ 799฿)",
+        method_shipping: "จัดส่งพัสดุ (35฿ / ส่งฟรีครบ 599฿)",
         method_pickup_in: "นัดรับในมอ (ฟรี)",
         method_pickup_out: "ส่งรอบมอ (ฟรี)",
         chk_contact: "เบอร์โทรศัพท์ / ไอจี *",
@@ -78,18 +78,22 @@ const products = [
         id: 1, brand: "Scent Studio", name: "Matcha 101 EDP", category: "niche",
         image: "images/perfumes/matcha101-2.jpg",
         gallery: ["images/perfumes/matcha101-1.jpg", "images/perfumes/matcha101-2.jpg", "images/perfumes/matcha101-3.jpg", "images/perfumes/matcha101-4.jpg"],
-        prices: { "2ml": 79, "5ml": 149, "10ml": 279 }, originalPrices: { "2ml": 89, "5ml": 169, "10ml": 299 },
+        // prices: { "2ml": 79, "5ml": 149, "10ml": 279 },
+        prices: { "2ml": 89, "5ml": 169, "10ml": 299 },
+        // originalPrices: { "2ml": 89, "5ml": 169, "10ml": 299 },
         notes: { top: "Bergamot, Lemon", middle: "Green Tea, Black Tea", base: "White Musk, Cedarwood" },
         desc: {
-            en: `✨️ 01 - Matcha 101 EDP\nBy Scent Studio\n\n👥 Unisex\n\n🌟 A clear, airy tea scent featuring notes of green tea & black tea.\n🌟 An ultra-clean vibe, feeling like you've just taken 100 showers, perfectly balanced with a soft smoothness.\n🌟 Emphasizes a neat, clean, and well-groomed aura > sexy.\n\nRatings:\nScent: 8.5\nClean: 9\nFresh: 9\nSweet: 2\nLongevity: 7 (6 - 7 hrs)\n\n🕙 Best for: Everyday wear\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 89฿ (Lasts ~1 week)\n5ml : 169฿ (Lasts ~2 weeks)\n10ml : 299฿ (Lasts ~1 - 2 month)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 799 THB 🙏\n\n100% Authentic guaranteed. Absolutely no dilutions.`,
-            th: `✨️ 01 - Matcha 101 EDP\nจาก Scent Studio\n\n👥 Unisex\n\n🌟 กลิ่นโทนชาเขียวใสๆ ของ green tea & black tea\n🌟 กลิ่นแนวสะอาด เหมือนอาบน้ำ 100 รอบ พร้อมกับความละมุน\n🌟 เน้นตัวสะอาด เรียบร้อย ดูแลตัวเอง > เซ็กซี่\n\nRate :\nกลิ่น 8.5\nสะอาด 9\nสดชื่น 9\nหวาน 2\nติดทน 7 (6 - 7 hrs)\n\n🕙 เหมาะกับ ใช้ทุกวัน\n\n🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้หรือจนกว่าจะครบ 20 ออเดอร์แรกเท่านั้นนน\n2ml : 89฿ (ใช้ได้ ~1 อาทิตย์)\n5ml : 169฿ (ใช้ได้ ~2 อาทิตย์)\n10ml : 299฿ (ใช้ได้ ~1 - 2 เดือน)\n🫶 นัดรับในมอแม่โจ้ได้นะครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาท\n🚚 ซื้อครบ 799฿ ส่งฟรี🙏\n\nเน้นของแท้ ไม่ผสมแน่นอน 100%`
+            en: `✨️ 01 - Matcha 101 EDP\nBy Scent Studio\n\n👥 Unisex\n\n🌟 A clear, airy tea scent featuring notes of green tea & black tea.\n🌟 An ultra-clean vibe, feeling like you've just taken 100 showers, perfectly balanced with a soft smoothness.\n🌟 Emphasizes a neat, clean, and well-groomed aura > sexy.\n\nRatings:\nScent: 8.5\nClean: 9\nFresh: 9\nSweet: 2\nLongevity: 7 (6 - 7 hrs)\n\n🕙 Best for: Everyday wear\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 89฿ (Lasts ~1 week)\n5ml : 169฿ (Lasts ~2 weeks)\n10ml : 299฿ (Lasts ~1 - 2 month)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 599 THB 🙏\n\n100% Authentic guaranteed. Absolutely no dilutions.`,
+            th: `✨️ 01 - Matcha 101 EDP\nจาก Scent Studio\n\n👥 Unisex\n\n🌟 กลิ่นโทนชาเขียวใสๆ ของ green tea & black tea\n🌟 กลิ่นแนวสะอาด เหมือนอาบน้ำ 100 รอบ พร้อมกับความละมุน\n🌟 เน้นตัวสะอาด เรียบร้อย ดูแลตัวเอง > เซ็กซี่\n\nRate :\nกลิ่น 8.5\nสะอาด 9\nสดชื่น 9\nหวาน 2\nติดทน 7 (6 - 7 hrs)\n\n🕙 เหมาะกับ ใช้ทุกวัน\n\n🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้หรือจนกว่าจะครบ 20 ออเดอร์แรกเท่านั้นนน\n2ml : 89฿ (ใช้ได้ ~1 อาทิตย์)\n5ml : 169฿ (ใช้ได้ ~2 อาทิตย์)\n10ml : 299฿ (ใช้ได้ ~1 - 2 เดือน)\n🫶 นัดรับในมอแม่โจ้ได้นะครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาท\n🚚 ซื้อครบ 599฿ ส่งฟรี🙏\n\nเน้นของแท้ ไม่ผสมแน่นอน 100%`
         }
     },
     {
         id: 2, brand: "Yves Saint Laurent", name: "Libre EDP", category: "designer",
         image: "images/perfumes/ysllibre-1.jpg",
         gallery: ["images/perfumes/ysllibre-1.jpg", "images/perfumes/ysllibre-2.jpg", "images/perfumes/ysllibre-3.jpg", "images/perfumes/ysllibre-4.jpg"],
-        prices: { "2ml": 149, "5ml": 299, "10ml": 549 }, originalPrices: { "2ml": 159, "5ml": 319, "10ml": 579 },
+        // prices: { "2ml": 149, "5ml": 299, "10ml": 549 },
+        prices: { "2ml": 159, "5ml": 319, "10ml": 579 },
+        // originalPrices: { "2ml": 159, "5ml": 319, "10ml": 579 },
         notes: { top: "Lavender, Mandarin Orange", middle: "Orange Blossom, Jasmine", base: "Madagascar Vanilla, Musk" },
         desc: {
             en: `✨️ YSL Libre EDP\nBy Yves Saint Laurent\n\n👥 Women\n\n🌟 A floral scent beautifully blended with lavender and vanilla.\n🌟 Radiates a clean, luxuriously expensive, and effortlessly sexy vibe.\n🌟 Emphasizes a classy and sophisticated aura.\n\nRatings:\nScent: 9.5\nClean: 8\nLuxury: 9.5\nSexy: 9\nSweet: 6\nLongevity: 9 (8 - 12 hrs)\n\n🕙 Best for: Work, dates, special events, or everyday wear.\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 159฿ (Lasts ~1 week)\n5ml : 319฿ (Lasts ~2 weeks)\n10ml : 579฿ (Lasts ~1 - 2 month)\n📦 Nationwide shipping fee: 35 THB\n🫶 Meetup available at Maejo University.\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
@@ -100,10 +104,12 @@ const products = [
         id: 3, brand: "Christian Dior", name: "Sauvage EDP", category: "designer",
         image: "images/perfumes/diorsauvage-2.jpg",
         gallery: ["images/perfumes/diorsauvage-2.jpg", "images/perfumes/diorsauvage-4.jpg", "images/perfumes/diorsauvage-5.jpg", "images/perfumes/diorsauvage-3.jpg"],
-        prices: { "2ml": 149, "5ml": 289, "10ml": 529 }, originalPrices: { "2ml": 159, "5ml": 309, "10ml": 549 },
+        // prices: { "2ml": 149, "5ml": 289, "10ml": 529 },
+        prices: { "2ml": 159, "5ml": 309, "10ml": 549 },
+        // originalPrices: { "2ml": 159, "5ml": 309, "10ml": 549 },
         notes: { top: "Calabrian Bergamot, Pepper", middle: "Sichuan Pepper, Lavender, Patchouli", base: "Ambroxan, Cedarwood" },
         desc: {
-            en: `✨️ Dior Sauvage EDP\nBy Christian Dior\n\n👥 Men / Unisex\n\n🌟 A fresh, clean, luxurious, and undeniably sexy scent. 👄\n🌟 A brilliant blend of Bergamot, Ambroxan, and woody notes that projects confidence, elegance, and immense charm.\n🌟 Emphasizes a clean, cool, and highly sophisticated aura.\n\nRatings:\nScent: 9.5\nClean: 9\nFresh: 9\nSexy: 9.5\nSweet: 2\nLongevity: 9 (8 - 12 hrs)\n\n🕙 Best for: Everyday wear, work, university, dates, or special events.\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 159฿ (Lasts ~ 1 week)\n5ml : 309฿ (Lasts ~ 2 weeks)\n10ml : 549฿ (Lasts ~ 1 - 2 months)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 799 THB 🙏\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
+            en: `✨️ Dior Sauvage EDP\nBy Christian Dior\n\n👥 Men / Unisex\n\n🌟 A fresh, clean, luxurious, and undeniably sexy scent. 👄\n🌟 A brilliant blend of Bergamot, Ambroxan, and woody notes that projects confidence, elegance, and immense charm.\n🌟 Emphasizes a clean, cool, and highly sophisticated aura.\n\nRatings:\nScent: 9.5\nClean: 9\nFresh: 9\nSexy: 9.5\nSweet: 2\nLongevity: 9 (8 - 12 hrs)\n\n🕙 Best for: Everyday wear, work, university, dates, or special events.\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 159฿ (Lasts ~ 1 week)\n5ml : 309฿ (Lasts ~ 2 weeks)\n10ml : 549฿ (Lasts ~ 1 - 2 months)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 599 THB 🙏\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
             th: `✨️ Dior Sauvage EDP\nจาก Christian Dior\n\n👥 Men / Unisex\n\n🌟 กลิ่นสดชื่น สะอาด ดูหรูหราและ sexy 👄\n🌟 กลิ่นโทน Bergamot ผสม Ambroxan และไม้หอม ให้ลุคมั่นใจ ดูดี มีเสน่ห์ฝุดๆ\n🌟 เน้นสะอาด เท่ ดูแพงงงงง\n\nRate :\nกลิ่น 9.5\nสะอาด 9\nสดชื่น 9\nเซ็กซี่ 9.5\nหวาน 2\nติดทน 9 (8 - 12 hrs)\n\n🕙 เหมาะกับ ใช้ทุกวัน ทำงาน ไปมหาวิทยาลัย ออกเดต ออกงาน\n\n🎊 โปรเปิดร้านลดราคา ถึง 31 ส.ค.นี้ หรือจนกว่าจะครบ 20 ออเดอร์แรกเท่านั้นน\n2ml : 159฿ (ใช้ได้ ~1 อาทิตย์)\n5ml : 309฿ (ใช้ได้ ~2 อาทิตย์)\n10ml : 549฿ (ใช้ได้ ~1 - 2 เดือน)\n🫶 นัดรับในมอแม่โจ้ได้นะครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาทหรือ\n🚚 ซื้อครบ 799 บาทส่งฟรี🙏\n\nเน้นของแท้ แบ่งจากขวดแท้ ไม่ผสมแน่นอน 100%`
         }
     },
@@ -111,11 +117,26 @@ const products = [
         id: 4, brand: "Mercedes-Benz", name: "Intense EDT", category: "designer",
         image: "images/perfumes/benzintense-1.jpg",
         gallery: ["images/perfumes/benzintense-1.jpg", "images/perfumes/benzintense-2.jpg", "images/perfumes/benzintense-3.jpg", "images/perfumes/benzintense-4.jpg"],
-        prices: { "2ml": 99, "5ml": 199, "10ml": 359 }, originalPrices: { "2ml": 109, "5ml": 219, "10ml": 399 },
+        // prices: { "2ml": 99, "5ml": 199, "10ml": 359 },
+        prices: { "2ml": 109, "5ml": 219, "10ml": 399 },
+        // originalPrices: { "2ml": 109, "5ml": 219, "10ml": 399 },
         notes: { top: "Bergamot, Lemon, Violet Leaf", middle: "Bourbon Pepper, Nutmeg", base: "Vetiver, Cedar, Cetalox" },
         desc: {
-            en: `🖤 Mercedes-Benz Intense EDT\nBy Mercedes-Benz\n\n👥 For Men\n\n🌟 A fresh opening featuring notes of Bergamot, Lemon, Mandarin & Violet Leaf.\n🌟 Followed by a warm, mildly spicy kick from Bourbon Pepper, Nutmeg & Violet.\n🌟 Finishes with Vetiver, Cedar, Cetalox & Patchouli, delivering an intense, cool, and highly sophisticated vibe. It truly feels like a gentleman wearing a sharp suit and driving a Benz! 😎\n\nRatings:\nScent: 8.5\nClean: 7.5\nFresh: 8\nClassy/Cool: 9\nSweet: 1\nLongevity: 7 (4 - 6 hrs)\n\n🕙 Best for:\nThose who love a cool, expensive-smelling, non-sweet fragrance. Perfect for first jobbers, dates, night outs, or university wear.\n\n😳 Mood: Woody • Spicy • Fresh • Masculine • Sophisticated\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 109฿ (Lasts ~ 1 week)\n5ml : 219฿ (Lasts ~ 2 weeks)\n10ml : 399฿ (Lasts ~ 1 - 2 months)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 799 THB 🙏\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
-            th: `🖤 Mercedes-Benz Intense EDT\nจาก Mercedes-Benz\n\n👥 For Men\n\n🌟 กลิ่นสดชื่นจาก Bergamot, Lemon, Mandarin & Violet Leaf\n🌟 ตามด้วยความเผ็ดอุ่น ๆ แบบแซ่บซี๊ดเบาๆ จาก Bourbon Pepper, Nutmeg & Violet\n🌟 ปิดท้ายด้วยกลิ่นของ Vetiver, Cedar, Cetalox & Patchouli ให้ความรู้สึกเข้ม เท่ และดูโตแบบผู้ใหญ่มว้ากกกกกก เหมือนใส่สูทขับเบนซ์ 😎\n\nRate :\nกลิ่น 8.5\nสะอาด 7.5\nสดชื่น 8\nหรู/เท่ 9\nหวาน 1\nติดทน 7 (4 - 6 hrs)\n\n🕙 เหมาะกับ:\nคนที่ชอบกลิ่น เท่ ดูแพง ไม่หวาน เหมาะกับ First Jobber ออกเดต เที่ยวกลางคืน ไปมหาวิทยาลัย\n\n😳 Mood : Woody • Spicy • Fresh • Masculine • Sophisticated\n\n🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้หรือจนกว่าจะครบ 20 ออเดอร์แรกเท่านั้นนน\n2ml : 109฿ (ใช้ได้ ~1 อาทิตย์)\n5ml : 219฿ (ใช้ได้ ~2 อาทิตย์)\n10ml : 399฿ (ใช้ได้ ~1 - 2 เดือน)\n🫶 นัดรับในมอแม่โจ้ได้นะครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาท\n🚚 ซื้อครบ 799฿ ส่งฟรี🙏\n\nเน้นของแท้ แบ่งจากขวดแท้ ไม่ผสมแน่นอน 100%`
+            en: `🖤 Mercedes-Benz Intense EDT\nBy Mercedes-Benz\n\n👥 For Men\n\n🌟 A fresh opening featuring notes of Bergamot, Lemon, Mandarin & Violet Leaf.\n🌟 Followed by a warm, mildly spicy kick from Bourbon Pepper, Nutmeg & Violet.\n🌟 Finishes with Vetiver, Cedar, Cetalox & Patchouli, delivering an intense, cool, and highly sophisticated vibe. It truly feels like a gentleman wearing a sharp suit and driving a Benz! 😎\n\nRatings:\nScent: 8.5\nClean: 7.5\nFresh: 8\nClassy/Cool: 9\nSweet: 1\nLongevity: 7 (4 - 6 hrs)\n\n🕙 Best for:\nThose who love a cool, expensive-smelling, non-sweet fragrance. Perfect for first jobbers, dates, night outs, or university wear.\n\n😳 Mood: Woody • Spicy • Fresh • Masculine • Sophisticated\n\n🎊 Grand Opening Promo! Valid until Aug 31st or for the first 20 orders only.\n2ml : 109฿ (Lasts ~ 1 week)\n5ml : 219฿ (Lasts ~ 2 weeks)\n10ml : 399฿ (Lasts ~ 1 - 2 months)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 599 THB 🙏\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
+            th: `🖤 Mercedes-Benz Intense EDT\nจาก Mercedes-Benz\n\n👥 For Men\n\n🌟 กลิ่นสดชื่นจาก Bergamot, Lemon, Mandarin & Violet Leaf\n🌟 ตามด้วยความเผ็ดอุ่น ๆ แบบแซ่บซี๊ดเบาๆ จาก Bourbon Pepper, Nutmeg & Violet\n🌟 ปิดท้ายด้วยกลิ่นของ Vetiver, Cedar, Cetalox & Patchouli ให้ความรู้สึกเข้ม เท่ และดูโตแบบผู้ใหญ่มว้ากกกกกก เหมือนใส่สูทขับเบนซ์ 😎\n\nRate :\nกลิ่น 8.5\nสะอาด 7.5\nสดชื่น 8\nหรู/เท่ 9\nหวาน 1\nติดทน 7 (4 - 6 hrs)\n\n🕙 เหมาะกับ:\nคนที่ชอบกลิ่น เท่ ดูแพง ไม่หวาน เหมาะกับ First Jobber ออกเดต เที่ยวกลางคืน ไปมหาวิทยาลัย\n\n😳 Mood : Woody • Spicy • Fresh • Masculine • Sophisticated\n\n🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้หรือจนกว่าจะครบ 20 ออเดอร์แรกเท่านั้นนน\n2ml : 109฿ (ใช้ได้ ~1 อาทิตย์)\n5ml : 219฿ (ใช้ได้ ~2 อาทิตย์)\n10ml : 399฿ (ใช้ได้ ~1 - 2 เดือน)\n🫶 นัดรับในมอแม่โจ้ได้นะครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาท\n🚚 ซื้อครบ 599฿ ส่งฟรี🙏\n\nเน้นของแท้ แบ่งจากขวดแท้ ไม่ผสมแน่นอน 100%`
+        }
+    },
+    {
+        id: 5, brand: "Jean Paul Gaultier", name: "Le Male Elixir EDP", category: "designer",
+        image: "images/perfumes/jpglelamaleelixir-3.jpg",
+        gallery: ["images/perfumes/jpglelamaleelixir-1.jpg", "images/perfumes/jpglelamaleelixir-2.jpg", "images/perfumes/jpglelamaleelixir-3.jpg", "images/perfumes/jpglelamaleelixir-4.jpg"],
+        // prices: { "2ml": 119, "5ml": 229, "10ml": 429 },
+        prices: { "2ml": 129, "5ml": 249, "10ml": 449 },
+        // originalPrices: { "2ml": 129, "5ml": 249, "10ml": 449 },
+        notes: { top: "Bergamot, Lemon, Violet Leaf", middle: "Bourbon Pepper, Nutmeg", base: "Vetiver, Cedar, Cetalox" },
+        desc: {
+            en: `💛 The golden torso everyone loves!\n🖤 Jean Paul Gaultier Le Male Elixir Parfum\nBy Jean Paul Gaultier\n\n👥 For Men\n\n✨ A fresh opening featuring notes of Lavender & Mint, delivering a cool yet warm sensation.\n✨ Followed by Vanilla & Benzoin, adding a smooth, rich, and charmingly sweet intensity.\n✨ Finishes with Honey, Tonka Bean & Tobacco, creating a deep, soft, and seductive trail for a truly confident man.\n\nRatings:\nScent: 9\nClean: 6.5\nFresh: 6\nClassy/Cool: 9.5\nSweet: 8.5\nLongevity: 8 (6 - 8 hrs)\n\n🕒 Best for:\nThose who love a deep, warm, expensive-smelling sweet fragrance. Perfect for first jobbers, dates, night outs, parties, or days you want to stand out.\n\n😎 Mood: Sweet · Warm · Vanilla · Amber · Sexy · Masculine · Sophisticated\n\n2ml : 129฿ (Lasts ~ 1 week)\n5ml : 249฿ (Lasts ~ 2 weeks)\n10ml : 449฿ (Lasts ~ 1 - 2 months)\n🫶 Meetup available at Maejo University.\n📦 Nationwide shipping fee: 35 THB\n🚚 Free shipping on orders over 599 THB 🙏\n\n100% Authentic guaranteed. Freshly decanted from the original bottle. Absolutely no dilutions.`,
+            th: `💛 หุ่นทองที่ใครก็ชอบมาแล้ววว\n🖤 Jean Paul Gaultier Le Male Elixir Parfum\nBy Jean Paul Gaultier\n\n👥 For Men\n\n✨ เปิดด้วยความสดชื่นของ Lavender & Mint ให้ความรู้สึกสดชื่นแต่แฝงความอบอุ่น\n✨ ตามด้วย Vanilla & Benzoin เพิ่มความหวานละมุน หอมเข้มข้นแบบมีเสน่ห์\n✨ ปิดท้ายด้วย Honey, Tonka Bean & Tobacco ให้ความรู้สึกหวานอุ่น ลึก นุ่ม และเย้ายวน เหมือนผู้ชายที่มีความมั่นใจในตัวเอง\n\nRatings:\nScent: 9\nClean: 6.5\nFresh: 6\nClassy/Cool: 9.5\nSweet: 8.5\nLongevity: 8 (6 - 8 hrs)\n\n🕒 Best for:\nคนที่ชอบกลิ่นหวานเข้ม อบอุ่น ดูแพง มีเสน่ห์ เหมาะกับ First Jobber ออกเดต เที่ยวกลางคืน งานเลี้ยง หรือวันที่อยากเพิ่มความโดดเด่นให้ตัวเอง\n\n😎 Mood: Sweet · Warm · Vanilla · Amber · Sexy · Masculine · Sophisticated\n\n2ml : 129฿ (ใช้ได้ ~ 1 สัปดาห์)\n5ml : 249฿ (ใช้ได้ ~ 2 สัปดาห์)\n10ml : 449฿ (ใช้ได้ ~ 1-2 เดือน)\n🫶 นัดรับที่ ม.แม่โจ้ ได้ครับ\n📦 ค่าจัดส่งทั่วประเทศ 35 บาท\n🚚 ซื้อครบ 599 บาท ส่งฟรี 🙏\n\n✨ ของแท้ 100% การันตี ไม่ผสม ไม่เจือจาง แบ่งจากขวดต้นฉบับโดยตรง`
         }
     }
 ];
@@ -395,7 +416,7 @@ function updateCheckoutSummary() {
     const method = methodElement ? methodElement.value : 'shipping';
     const langKey = typeof currentLang !== 'undefined' ? currentLang : 'en';
 
-    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
     const total = subtotal + shipping;
     
     let shippingText = `฿ ${shipping}`;
@@ -567,7 +588,7 @@ function proceedToPayment() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const methodElement = document.querySelector('input[name="delivery_method"]:checked');
     const method = methodElement ? methodElement.value : 'shipping';
-    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
     const total = subtotal + shipping;
 
     const cleanID = PROMPTPAY_ID.replace(/[^0-9]/g, '');
@@ -769,7 +790,7 @@ async function confirmPayment() {
 
         const itemString = cart.map(item => `- ${item.name} (${item.size}) x ${item.quantity}`).join('\n');
         let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const shipping = (methodVal === 'pickup_in' || methodVal === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+        const shipping = (methodVal === 'pickup_in' || methodVal === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
 
         const newOrderId = "LM" + new Date().getTime().toString().slice(-6);
 

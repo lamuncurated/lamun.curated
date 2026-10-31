@@ -7,7 +7,7 @@ function setStore(key, val) { try { localStorage.setItem(key, val); } catch (e) 
 const translations = {
     en: {
         nav_collection: "Collection", nav_story: "Our Story", nav_cart: "Cart",
-        marquee_msg: "🚚 FREE SHIPPING ON ORDERS OVER 799 THB &nbsp; ✦ &nbsp; 🎊 GRAND OPENING PROMO &nbsp; ✦ &nbsp; 100% AUTHENTIC GUARANTEED",
+        marquee_msg: "🚚 FREE SHIPPING ON ORDERS OVER 599 THB &nbsp; ✦ &nbsp; 100% AUTHENTIC GUARANTEED",
         hero_sub: "LAMUN CURATED PARFUM",
         hero_title: "Find <br/> <span class='italic font-light text-white/80'>Your</span> <br/> Best PARFUM",
         hero_desc: "100% authentic perfumes in smaller, travel-friendly bottles. We find popular fragrances and offer unique translations, all conveniently packaged for easy portability at affordable prices :)",
@@ -45,7 +45,7 @@ const translations = {
         ph_fname: "e.g., Lamun", ph_lname: "e.g., Cur", ph_phone: "e.g., 08xxxxxxxx", ph_addr: "e.g., 123/45 Bldg, Sukhumvit Rd.",
         ph_subdist: "e.g., Khlong Toei", ph_dist: "e.g., Khlong Toei", ph_prov: "e.g., Bangkok", ph_zip: "e.g., 10110", ph_note: "e.g., Leave the parcel at the lobby...",
         err_prov_pickup: "Meetup is only available in Maejo / San Sai area. Please select Delivery.",
-        method_shipping: "Delivery (35 THB / Free > 799)",
+        method_shipping: "Delivery (35 THB / Free > 599)",
         method_pickup_in: "In-University (Free)",
         method_pickup_out: "Around University (Free)",
         chk_contact: "Phone Number / IG OR ETC. *",
@@ -54,10 +54,15 @@ const translations = {
         chk_slip_warn: "* We verify every transfer slip. Any forgery will be strictly prosecuted.",
         history_title: "MY ORDERS",
         history_note: "* Status will update to tracking number once shipped (1-2 days)",
+        filter_gender: "Gender:",
+        gender_all: "All Genders",
+        gender_men: "For Men",
+        gender_women: "For Women",
+        gender_unisex: "Unisex",
     },
     th: {
         nav_collection: "คอลเลกชั่น", nav_story: "เกี่ยวกับเรา", nav_cart: "ตะกร้า",
-        marquee_msg: "🚚 ซื้อครบ 799฿ ส่งฟรีทั่วประเทศ &nbsp; ✦ &nbsp; 🎊 โปรเปิดร้านลดราคาถึง 31 ส.ค. นี้ &nbsp; ✦ &nbsp; การันตีของแท้ 100% ไม่ผสมแน่นอน",
+        marquee_msg: "🚚 ซื้อครบ 599฿ ส่งฟรีทั่วประเทศ &nbsp; ✦ &nbsp; การันตีของแท้ 100% ไม่ผสมแน่นอน",
         hero_sub: "ลามุน คิวเรท พาร์ฟูม",
         hero_title: "ค้นหา <br/> <span class='italic font-light text-white/80'>กลิ่นที่</span> <br/> เหมาะกับคุณ",
         hero_desc: "ร้านแบ่งขายน้ำหอมแท้ 100% คัดสรรน้ำหอมตัวดัง ตัวเด็ด ตัวแปลกกกก ขวดเล็กพกพาง่าย เหมาะสำหรับพกทุกที่ ราคาเข้าถึงง่าย by นักศึกษาตัวเล็กๆคนนึง :)",
@@ -92,7 +97,7 @@ const translations = {
         ph_fname: "เช่น ละมุน", ph_lname: "เช่น เคอร์", ph_phone: "เช่น 0812345678", ph_addr: "เช่น 123/45 คอนโด A ซ.สุขุมวิท",
         ph_subdist: "เช่น คลองเตย", ph_dist: "เช่น คลองเตย", ph_prov: "เช่น กรุงเทพมหานคร", ph_zip: "เช่น 10110", ph_note: "เช่น ฝากพัสดุไว้ที่ป้อม รปภ. ...",
         err_prov_pickup: "การนัดรับรองรับเฉพาะโซน ม.แม่โจ้ / อ.สันทราย เท่านั้น กรุณาเปลี่ยนวิธีจัดส่งครับ",
-        method_shipping: "จัดส่งพัสดุ (35฿ / ส่งฟรีครบ 799฿)",
+        method_shipping: "จัดส่งพัสดุ (35฿ / ส่งฟรีครบ 599฿)",
         method_pickup_in: "นัดรับในมอ (ฟรี)",
         method_pickup_out: "ส่งรอบมอ (ฟรี)",
         chk_contact: "เบอร์โทรศัพท์ / ไอจี หรือ อื่นๆ*",
@@ -101,7 +106,11 @@ const translations = {
         chk_slip_warn: "*ทางร้านมีการตรวจสอบสลิปก่อนทุกครั้งหากพบการปลอมแปลงจะถูกดำเนินคดีตามกฎหมาย",
         history_title: "คำสั่งซื้อของฉัน",
         history_note: "*สถานะจะเปลี่ยนเป็นเลขพัสดุเมื่อจัดส่งสำเร็จ (ภายใน 1-2 วัน)",
-        
+        filter_gender: "เพศ:",
+        gender_all: "ทุกเพศ",
+        gender_men: "น้ำหอมผู้ชาย",
+        gender_women: "น้ำหอมผู้หญิง",
+        gender_unisex: "ยูนิเซ็กส์ (Unisex)",
     }
 };
 
@@ -158,32 +167,44 @@ const products = [
     {
         id: 1, brand: "Scent Studio", name: "Matcha 101 EDP", category: "niche",
         image: "images/perfumes/matcha101-1.jpg",
-        prices: { "2ml": 79, "5ml": 149, "10ml": 279 },
-        originalPrices: { "2ml": 89, "5ml": 169, "10ml": 299 },
+        // prices: { "2ml": 79, "5ml": 149, "10ml": 279 },
+        prices: { "2ml": 89, "5ml": 169, "10ml": 299 },
+        // originalPrices: { "2ml": 89, "5ml": 169, "10ml": 299 },
         notes: { top: "Bergamot, Lemon", middle: "Green Tea, Black Tea", base: "White Musk, Cedarwood" }
     },
     {
         id: 2, brand: "Yves Saint Laurent", name: "Libre EDP", category: "designer",
         image: "images/perfumes/ysllibre-1.jpg",
-        prices: { "2ml": 149, "5ml": 299, "10ml": 549 },
-        originalPrices: { "2ml": 159, "5ml": 319, "10ml": 579 },
+        // prices: { "2ml": 149, "5ml": 299, "10ml": 549 },
+        prices: { "2ml": 159, "5ml": 319, "10ml": 579 },
+        // originalPrices: { "2ml": 159, "5ml": 319, "10ml": 579 },
         notes: { top: "Lavender, Mandarin Orange", middle: "Orange Blossom, Jasmine", base: "Madagascar Vanilla, Musk" }
     },
     {
         id: 3, brand: "Christian Dior", name: "Sauvage EDP", category: "designer",
         image: "images/perfumes/diorsauvage-2.jpg",
-        prices: { "2ml": 149, "5ml": 289, "10ml": 529 },
-        originalPrices: { "2ml": 159, "5ml": 309, "10ml": 549 },
+        // prices: { "2ml": 149, "5ml": 289, "10ml": 529 },
+        prices: { "2ml": 159, "5ml": 309, "10ml": 549 },
+        // originalPrices: { "2ml": 159, "5ml": 309, "10ml": 549 },
         notes: { top: "Calabrian Bergamot, Pepper", middle: "Sichuan Pepper, Lavender, Patchouli", base: "Ambroxan, Cedarwood" }
     },
     {
         id: 4, brand: "Mercedes-Benz", name: "Intense EDT", category: "designer",
         image: "images/perfumes/benzintense-1.jpg",
-        prices: { "2ml": 99, "5ml": 199, "10ml": 359 },
-        originalPrices: { "2ml": 109, "5ml": 219, "10ml": 399 },
+        // prices: { "2ml": 99, "5ml": 199, "10ml": 359 },
+        prices: { "2ml": 109, "5ml": 219, "10ml": 399 },
+        // originalPrices: { "2ml": 109, "5ml": 219, "10ml": 399 },
         notes: { top: "Bergamot, Lemon, Violet Leaf", middle: "Bourbon Pepper, Nutmeg", base: "Vetiver, Cedar, Cetalox" }
     },
-    { id: 5, brand: "Lamun.Cur", name: "Secret Scent...", category: "niche", isComingSoon: true }
+    {
+        id: 5, brand: "Jean Paul Gaultier", name: "Le Male Elixir EDP", gender: "men", category: "designer",
+        image: "images/perfumes/jpglelamaleelixir-3.jpg",
+        // prices: { "2ml": 119, "5ml": 229, "10ml": 429 },
+        prices: { "2ml": 129, "5ml": 249, "10ml": 449 },
+        // originalPrices: { "2ml": 129, "5ml": 249, "10ml": 449 },
+        notes: { top: "Bergamot, Lemon, Violet Leaf", middle: "Bourbon Pepper, Nutmeg", base: "Vetiver, Cedar, Cetalox" }
+    },
+    { id: 6, brand: "Lamun.Cur", name: "Secret Scent...", category: "niche", isComingSoon: true }
 ];
 
 let cart = JSON.parse(localStorage.getItem('lamun_cart')) || [];
@@ -500,7 +521,7 @@ function updateCheckoutSummary() {
     const method = methodElement ? methodElement.value : 'shipping';
     const langKey = typeof currentLang !== 'undefined' ? currentLang : 'en';
 
-    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
     const total = subtotal + shipping;
 
     let shippingText = `฿ ${shipping}`;
@@ -672,7 +693,7 @@ function proceedToPayment() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const methodElement = document.querySelector('input[name="delivery_method"]:checked');
     const method = methodElement ? methodElement.value : 'shipping';
-    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+    const shipping = (method === 'pickup_in' || method === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
     const total = subtotal + shipping;
 
     const cleanID = PROMPTPAY_ID.replace(/[^0-9]/g, '');
@@ -873,7 +894,7 @@ async function confirmPayment() {
 
         const itemString = cart.map(item => `- ${item.name} (${item.size}) x ${item.quantity}`).join('\n');
         let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const shipping = (methodVal === 'pickup_in' || methodVal === 'pickup_out') ? 0 : (subtotal >= 799 ? 0 : 35);
+        const shipping = (methodVal === 'pickup_in' || methodVal === 'pickup_out') ? 0 : (subtotal >= 599 ? 0 : 35);
 
         const newOrderId = "LM" + new Date().getTime().toString().slice(-6);
 
@@ -1251,3 +1272,62 @@ function drawHistoryUI(history, container) {
         `;
     }).join('');
 }
+
+let currentGenderFilter = 'all';
+
+window.toggleGenderDropdown = function(e) {
+    e.stopPropagation();
+    const menu = document.getElementById('gender-dropdown-menu');
+    const icon = document.getElementById('gender-icon');
+    
+    if(menu && icon) {
+        menu.classList.toggle('opacity-0');
+        menu.classList.toggle('invisible');
+        menu.classList.toggle('translate-y-2');
+        icon.classList.toggle('rotate-180');
+    }
+    
+    const sortMenu = document.getElementById('sort-dropdown-menu');
+    const sortIcon = document.getElementById('sort-icon');
+    if (sortMenu && !sortMenu.classList.contains('opacity-0')) {
+        sortMenu.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        if(sortIcon) sortIcon.classList.remove('rotate-180');
+    }
+};
+
+document.querySelectorAll('.gender-option').forEach(option => {
+    option.addEventListener('click', (e) => {
+        currentGenderFilter = e.target.getAttribute('data-value');
+        
+        const textSpan = document.getElementById('current-gender-text');
+        if(textSpan) {
+            textSpan.setAttribute('data-i18n', e.target.getAttribute('data-i18n'));
+            const currentLang = localStorage.getItem('lamun_lang') || 'th';
+            if(translations[currentLang] && translations[currentLang][e.target.getAttribute('data-i18n')]) {
+                textSpan.innerText = translations[currentLang][e.target.getAttribute('data-i18n')];
+            }
+        }
+
+        document.querySelectorAll('.gender-option').forEach(btn => {
+            btn.classList.remove('text-lux-black', 'dark:text-white');
+            btn.classList.add('text-lux-gray');
+        });
+        e.target.classList.remove('text-lux-gray');
+        e.target.classList.add('text-lux-black', 'dark:text-white');
+
+        window.toggleGenderDropdown(e);
+
+        if(typeof renderProducts === 'function') {
+            renderProducts(); 
+        }
+    });
+});
+
+document.addEventListener('click', () => {
+    const genderMenu = document.getElementById('gender-dropdown-menu');
+    const genderIcon = document.getElementById('gender-icon');
+    if (genderMenu && !genderMenu.classList.contains('opacity-0')) {
+        genderMenu.classList.add('opacity-0', 'invisible', 'translate-y-2');
+        if(genderIcon) genderIcon.classList.remove('rotate-180');
+    }
+});
